@@ -34,9 +34,15 @@ export async function createOfficerAction(data: {
         hrlp: data.hrlp
       })
 
+      // Convert competency IDs from string to number
+      const competenciesWithNumericIds = data.competencies.map(comp => ({
+        ...comp,
+        competency_id: parseInt(comp.competency_id, 10)
+      }))
+
       // Update competencies and stints
       await Promise.all([
-        updateOfficerCompetencies(id, data.competencies),
+        updateOfficerCompetencies(id, competenciesWithNumericIds),
         updateOfficerStints(id, data.stints)
       ])
 
@@ -54,9 +60,15 @@ export async function createOfficerAction(data: {
         hrlp: data.hrlp
       })
 
+      // Convert competency IDs from string to number
+      const competenciesWithNumericIds = data.competencies.map(comp => ({
+        ...comp,
+        competency_id: parseInt(comp.competency_id, 10)
+      }))
+
       // Add competencies and stints
       await Promise.all([
-        updateOfficerCompetencies(officer.officer_id, data.competencies),
+        updateOfficerCompetencies(officer.officer_id, competenciesWithNumericIds),
         updateOfficerStints(officer.officer_id, data.stints)
       ])
 

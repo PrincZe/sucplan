@@ -12,7 +12,18 @@ export default function NewStintPage() {
     stint_type: string
     year: number
   }) => {
-    await createStintAction(data)
+    try {
+      const result = await createStintAction(data)
+      if (result.success) {
+        router.push('/stints')
+      }
+      return result
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to create stint'
+      }
+    }
   }
 
   return (

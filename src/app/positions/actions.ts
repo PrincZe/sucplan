@@ -17,6 +17,7 @@ export async function handlePositionSubmit(data: PositionFormData, id?: string) 
       position_title: data.position_title,
       agency: data.agency,
       jr_grade: data.jr_grade,
+      sr_grade: data.sr_grade,
       incumbent_id: data.incumbent_id
     })
 

@@ -33,7 +33,15 @@ export async function updateCompetencyAction(
   }
 ) {
   try {
-    const competency = await updateCompetency(id, {
+    const numericId = parseInt(id, 10)
+    if (isNaN(numericId)) {
+      return {
+        success: false,
+        error: 'Invalid competency ID'
+      }
+    }
+
+    const competency = await updateCompetency(numericId, {
       competency_name: data.competency_name,
       description: data.description,
       max_pl_level: data.max_pl_level
@@ -50,7 +58,15 @@ export async function updateCompetencyAction(
 
 export async function deleteCompetencyAction(id: string) {
   try {
-    await deleteCompetency(id)
+    const numericId = parseInt(id, 10)
+    if (isNaN(numericId)) {
+      return {
+        success: false,
+        error: 'Invalid competency ID'
+      }
+    }
+
+    await deleteCompetency(numericId)
     revalidatePath('/competencies')
     return { success: true }
   } catch (error) {

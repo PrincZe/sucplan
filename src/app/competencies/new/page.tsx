@@ -12,7 +12,7 @@ export default function NewCompetencyPage() {
     description: string | null
     max_pl_level: number
   }) => {
-    await createCompetencyAction(data)
+    return createCompetencyAction(data)
   }
 
   return (

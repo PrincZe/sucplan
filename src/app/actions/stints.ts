@@ -13,7 +13,9 @@ export async function createStintAction(data: {
     const stint = await createStint({
       stint_name: data.stint_name,
       stint_type: data.stint_type,
-      year: data.year
+      year: data.year,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     })
 
     revalidatePath('/stints')

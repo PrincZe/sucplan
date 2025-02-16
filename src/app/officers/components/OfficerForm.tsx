@@ -43,7 +43,7 @@ export default function OfficerForm({ officer, competencies, stints, onSubmit }:
     ihrp_certification: officer?.ihrp_certification ?? null,
     hrlp: officer?.hrlp ?? null,
     competencies: officer?.competencies?.map(comp => ({
-      competency_id: comp.competency.competency_id,
+      competency_id: comp.competency.competency_id.toString(),
       achieved_pl_level: comp.achieved_pl_level,
       assessment_date: comp.assessment_date
     })) ?? [],
@@ -181,7 +181,7 @@ export default function OfficerForm({ officer, competencies, stints, onSubmit }:
                 <h4 className="font-medium">{competency.competency_name}</h4>
                 <select
                   value={
-                    formData.competencies.find(c => c.competency_id === competency.competency_id)
+                    formData.competencies.find(c => Number(c.competency_id) === competency.competency_id)
                       ?.achieved_pl_level ?? ''
                   }
                   onChange={(e) => {
@@ -189,10 +189,10 @@ export default function OfficerForm({ officer, competencies, stints, onSubmit }:
                     if (value) {
                       const newCompetencies = [...formData.competencies]
                       const index = newCompetencies.findIndex(
-                        c => c.competency_id === competency.competency_id
+                        c => Number(c.competency_id) === competency.competency_id
                       )
                       const competencyData = {
-                        competency_id: competency.competency_id,
+                        competency_id: competency.competency_id.toString(),
                         achieved_pl_level: parseInt(value),
                         assessment_date: new Date().toISOString().split('T')[0]
                       }
@@ -206,7 +206,7 @@ export default function OfficerForm({ officer, competencies, stints, onSubmit }:
                       setFormData({
                         ...formData,
                         competencies: formData.competencies.filter(
-                          c => c.competency_id !== competency.competency_id
+                          c => Number(c.competency_id) !== competency.competency_id
                         )
                       })
                     }

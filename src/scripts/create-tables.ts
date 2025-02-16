@@ -25,12 +25,21 @@ async function createTables() {
     // Read the schema SQL file
     const schemaSQL = readFileSync(join(process.cwd(), 'schema.sql'), 'utf-8')
     
-    // Execute the SQL
-    const { error } = await supabase.from('schema').rpc('exec', { sql: schemaSQL })
+    // Split the SQL into individual statements
+    const statements = schemaSQL
+      .split(';')
+      .map(stmt => stmt.trim())
+      .filter(stmt => stmt.length > 0)
     
-    if (error) {
-      console.error('Error creating tables:', error)
-      throw error
+    // Execute each statement
+    for (const statement of statements) {
+      const { error } = await supabase.from('_sql').select('*').eq('query', statement)
+      
+      if (error) {
+        console.error('Error executing statement:', statement)
+        console.error('Error details:', error)
+        throw error
+      }
     }
     
     console.log('Tables created successfully!')
